@@ -1,0 +1,20 @@
+{
+  // Project-level settings only. Machine-specific paths (the location of R.exe
+  // and radian.exe) belong in your *user* settings, not here, so that a fresh
+  // clone works on someone else's machine.
+
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+
+  "editor.rulers": [80],
+  "[r]": { "editor.tabSize": 2 },
+  "[quarto]": { "editor.tabSize": 2 },
+  "[yaml]": { "editor.tabSize": 2 },
+
+  "r.sessionWatcher": true,
+  "r.bracketedPaste": true,
+
+  "quarto.render.previewType": "internal",
+  "quarto.render.previewPort": 7171
+}

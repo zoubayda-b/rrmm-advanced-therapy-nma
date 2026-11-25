@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "REditorSupport.r",
+    "quarto.quarto",
+    "eamodio.gitlens",
+    "mechatroner.rainbow-csv",
+    "yzhang.markdown-all-in-one"
+  ]
+}
