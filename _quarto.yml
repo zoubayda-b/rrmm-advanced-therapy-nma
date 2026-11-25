@@ -1,0 +1,28 @@
+project:
+  type: default
+  # Inputs live in reports/, so Quarto mirrors that folder here and the report
+  # lands at outputs/reports/protocol.html.
+  output-dir: outputs
+
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-title: "Contents"
+    number-sections: true
+    theme: cosmo
+    code-fold: true
+    code-summary: "Show code"
+    fig-cap-location: bottom
+    tbl-cap-location: top
+    embed-resources: true
+  pdf:
+    documentclass: article
+    geometry: "margin=2.5cm"
+    number-sections: true
+    colorlinks: true
+
+execute:
+  echo: false
+  warning: false
+  message: false

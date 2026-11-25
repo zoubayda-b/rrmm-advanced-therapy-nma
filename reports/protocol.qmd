@@ -1,0 +1,239 @@
+---
+title: "CAR-T, bispecifics and dual-bispecific combinations in early relapsed multiple myeloma"
+subtitle: "An anchored network meta-analysis where the comparator is the problem"
+author: "Zoubayda Baoubbou"
+date: "2026-11-16"
+version: "0.1 — DRAFT, not frozen"
+format: html
+---
+
+::: {.callout-important}
+## Status: v0.1 draft
+This protocol is **not frozen**. Nothing in `R/02-` … `R/07-` may be run against
+trial data until this document is signed off and tagged `protocol-v1.0`.
+Every later change must be recorded in the **Amendments log** (§19) with date and
+reason.
+:::
+
+# Background and decision context {#sec-background}
+
+<!--
+TODO (Phase 0, ~300 words). Answer, in this order:
+  1. What is the clinical problem in early relapsed myeloma right now?
+  2. Why is the comparison contested? (CAR-T vs off-the-shelf bispecifics,
+     sequencing, access, cost.)
+  3. What decision does a payer/clinician actually make, and what would they
+     do differently depending on the answer?
+  4. What is missing from the published literature? (The brief: 11 unanchored
+     MAICs, most company-funded, none anchored across the whole early-relapse
+     network with an explicit transitivity assessment.)
+-->
+
+# PICO and eligibility {#sec-pico}
+
+| Element | Specification |
+|---|---|
+| **P** | Adults with relapsed/refractory multiple myeloma, 1–4 prior lines, lenalidomide-exposed or refractory, no prior BCMA-directed therapy (primary analysis) |
+| **I** | Cilta-cel; ide-cel; teclistamab + daratumumab; elranatamab; talquetamab + daratumumab ± pomalidomide; teclistamab + talquetamab; talquetamab + pomalidomide |
+| **C** | DPd, PVd, DVd, EPd, Rd, Kd — modelled first as one composite "physician's choice" node |
+| **O** | Primary: PFS (HR). Secondary: OS; ORR; ≥CR; MRD negativity; CRS; ICANS; infections; discontinuation |
+| **S / design** | Phase 3 RCTs. Randomised phase 2 permitted? **TODO: decide and justify.** |
+| **T / data cut** | 2026-11-15; ASH 2026 abstracts flagged as abstract-only |
+
+::: {.callout-note}
+## Decision to make and record
+Does **KarMMa-3** (2–4 prior lines, triple-class exposed) belong in the primary
+network or only in a sensitivity analysis? Write the answer here in one sentence
+and add it to the decisions log in the README.
+:::
+
+# Search strategy {#sec-search}
+
+<!--
+TODO (Phase 3). Three blocks joined with AND:
+  1. Disease: multiple myeloma, plasma cell neoplasm.
+  2. Intervention: CAR-T, BCMA, GPRC5D, bispecific, and each named drug.
+  3. Design: randomised controlled trial, phase 3.
+Databases: MEDLINE/PubMed, Embase, CENTRAL.
+Hand-searches: ASH/ASCO/EHA 2024–2026, ClinicalTrials.gov, company press releases.
+All searches run on the same day; raw exports saved to data/raw/search/ with
+date, database, query and record count.
+-->
+
+# Study selection {#sec-selection}
+
+<!--
+TODO (Phase 3). Describe: deduplication (by script, not by hand), title/abstract
+screening, full-text screening, one exclusion reason per excluded full text,
+PRISMA count reconciliation, reference-checking of included trials and recent
+systematic reviews / MAICs.
+-->
+
+# Outcomes and definitions {#sec-outcomes}
+
+| Outcome | Type | Measure | Definition to use | Notes |
+|---|---|---|---|---|
+| PFS | time-to-event | HR (log scale) | IRC/BICR-assessed where available | Primary |
+| OS | time-to-event | HR (log scale) | | Often immature — see §18 |
+| ORR | binary | OR | ≥PR | |
+| ≥CR | binary | OR | | |
+| MRD negativity | binary | OR | State assay and threshold | |
+| CRS | binary | OR | State grading system (ASTCT) | |
+| ICANS | binary | OR | State grading system | |
+| Infections | binary | OR | Grade ≥3 | |
+| Discontinuation | binary | OR | Any-cause | |
+
+::: {.callout-warning}
+## The trap this table exists to prevent
+Mixing PFS definitions (investigator vs IRC), or mixing HR with OR, is one of the
+listed failure modes. Pin the definition **per trial** in `outcomes.csv` before
+pooling anything.
+:::
+
+# Data extraction and dictionary {#sec-extraction}
+
+<!--
+TODO (Phase 4). Four relational tables — studies.csv, arms.csv, outcomes.csv,
+rob.csv. Pilot on two trials, refine, then extract the rest. Every number carries
+its source (table, figure, page or abstract number). 100% second-pass check.
+Write data/data-dictionary.md before extracting, not after.
+-->
+
+# Risk of bias {#sec-rob}
+
+<!--
+TODO (Phase 10, but specify now). RoB 2, per trial, for PFS, OS and response.
+State which domains apply to which outcome. Flag that MagnetisMM-5 and
+MonumenTAL-6 are abstract-only and therefore have an unavoidable
+"missing outcome data" / reporting concern.
+-->
+
+# Effect measures {#sec-effects}
+
+<!--
+TODO. HR for time-to-event outcomes: convert to log HR and SE.
+OR for binary outcomes: rebuild 2x2 tables.
+State the zero-cell correction **in advance** (e.g. 0.5 continuity correction, or
+Peto OR) and the CI method.
+-->
+
+# Pairwise meta-analysis {#sec-pairwise}
+
+<!--
+TODO. Model: fixed and random effects; τ² estimator (REML / Paule–Mandel /
+DerSimonian–Laird); I², Q, prediction interval, Knapp–Hartung where relevant.
+Rule: do NOT pool when there is one trial per comparison — say so explicitly.
+-->
+
+# Bucher indirect comparison {#sec-bucher}
+
+For two log relative effects $d_{AB}$ and $d_{BC}$, each with standard error $se$:
+
+$$
+d_{AC} = d_{AB} - d_{BC}, \qquad
+se_{AC} = \sqrt{se_{AB}^2 + se_{BC}^2}, \qquad
+CI_{AC} = \exp\!\left(d_{AC} \pm 1.96\, se_{AC}\right)
+$$
+
+<!--
+TODO. State the anchor used in the worked example (e.g. cilta-cel vs
+elranatamab through DPd), why that anchor, and the condition under which Bucher
+is sufficient. Bucher produces a number but cannot test consistency.
+-->
+
+# Frequentist NMA {#sec-nma-freq}
+
+<!--
+TODO. Reference treatment = SOC-composite. Multi-arm covariance: CS or HCS —
+choose and justify. Common-effect and random-effects both fitted; state which is
+primary **before** seeing results. Consistency: node-splitting, design-by-
+treatment interaction, net heat plot. P-scores reported with an explicit caveat
+that they are not a ranking of clinical superiority.
+-->
+
+# Bayesian NMA {#sec-nma-bayes}
+
+<!--
+TODO. gemtc: 4 chains, 20,000 iterations, thinning, half-normal prior on τ.
+Convergence: Rhat, effective sample size, trace plots. Model comparison: DIC /
+residual deviance. Sensitivity: alternative priors, fixed vs random.
+-->
+
+# Comparator definitions {#sec-comparator}
+
+The central judgement of the project. Three defensible models; **all three are
+run**:
+
+1. **Composite SOC node** — every control arm becomes "physician's choice".
+2. **Decomposed regimens** — DPd, PVd, DVd, EPd as separate nodes, connected via
+   APOLLO, IKARIA-MM, OPTIMISMM and ELOQUENT-3.
+3. **Network meta-regression** — keep the composite node, model prior lines and
+   prior anti-CD38 exposure as effect modifiers.
+
+<!--
+TODO. State the primary model and what would count as a conclusion that flips
+between models. If the conclusion flips, that is a publishable judgement about
+the comparator definition, not a failed analysis.
+-->
+
+# Transitivity and consistency {#sec-transitivity}
+
+| Trial | Prior anti-CD38 | Len-refractory | Population note |
+|---|---|---|---|
+| CARTITUDE-4 | ≈24% refractory | Required | Earlier line, less refractory |
+| KarMMa-3 | ≈95% refractory | Triple-class exposed | Heavily pretreated; control PFS 4.4 mo |
+| MajesTEC-3 | Daratumumab-refractory excluded | Required | Control PFS 18.1 mo |
+| MagnetisMM-5 | ≈5.9% prior exposure | Required | Mostly anti-CD38-naïve |
+| MonumenTAL-3 | Stratified by prior exposure | Required | Mixed exposure |
+| MonumenTAL-6 | Required prior anti-CD38 | Required | Closest to current second-line practice |
+
+<!--
+TODO. Name the biggest threat to transitivity in ONE sentence. Then state the
+diagnostic that would falsify the network. Add the falsification criterion to
+§18.
+-->
+
+# Sensitivity analyses {#sec-sensitivity}
+
+Pre-specified, not post hoc:
+
+- [ ] Exclude KarMMa-3
+- [ ] Exclude high-risk-of-bias trials
+- [ ] Alternative effect measure
+- [ ] Composite vs decomposed comparator
+- [ ] Decomposed comparator with backbone trials added
+- [ ] Abstract-only trials excluded
+
+# Certainty (CINeMA) {#sec-cinema}
+
+<!--
+TODO. CINeMA for the key comparisons: cilta-cel vs SOC, tec-dara vs SOC,
+elranatamab vs SOC, Tal-DP vs SOC, Tec-Tal vs SOC. Each domain judgement must
+cite the RoB or extraction evidence that supports it.
+-->
+
+# Reporting (PRISMA-NMA) {#sec-reporting}
+
+<!--
+TODO. PRISMA 2020 flow + PRISMA-NMA checklist. Name the files that will hold
+them and where they will live in the repo.
+-->
+
+# Decision rules {#sec-decisions}
+
+<!--
+TODO — write this BEFORE results exist.
+  1. What result would change the conclusion?
+  2. What will you refuse to claim, whatever the numbers say?
+  3. Which comparison is a priori least certain, and why?
+  4. One paragraph: "What would make me abandon this project?"
+-->
+
+# Amendments log {#sec-amendments}
+
+Every change after `protocol-v1.0` is tagged goes here. A protocol without an
+amendments log is a protocol nobody can trust.
+
+| Date | Version | Section | Change | Reason |
+|---|---|---|---|---|
+| 2026-11-25 | 0.1 | all | Initial scaffold created | Phase 0 start |

@@ -1,0 +1,42 @@
+# ---- R ---------------------------------------------------------------------
+.Rproj.user/
+.Rhistory
+.Rdata
+.Ruserdata
+*.Rproj
+
+# ---- renv ------------------------------------------------------------------
+# The library is machine-specific. renv.lock is the contract and IS committed.
+renv/library/
+renv/staging/
+renv/sandbox/
+renv/python/
+
+# ---- Quarto ----------------------------------------------------------------
+/.quarto/
+**/*.quarto_ipynb
+/_site/
+
+# ---- Generated outputs -----------------------------------------------------
+# Everything under outputs/ is rebuilt by the pipeline, so it is not tracked.
+# At release, force-add the key figures:
+#   git add -f outputs/figures/network.png
+outputs/figures/*
+outputs/tables/*
+outputs/reports/*
+!outputs/figures/.gitkeep
+!outputs/tables/.gitkeep
+!outputs/reports/.gitkeep
+
+# ---- Data ------------------------------------------------------------------
+# Paywalled or licensed exports must never be redistributed.
+data/raw/licensed/
+
+# ---- Secrets ---------------------------------------------------------------
+.Renviron
+.env
+
+# ---- OS / editors ----------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini

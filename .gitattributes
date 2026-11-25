@@ -1,0 +1,22 @@
+# Normalise line endings so the repository behaves the same on Windows, macOS
+# and Linux — and so a fresh clone produces byte-identical files.
+* text=auto eol=lf
+
+# Explicit, because these are the file types the pipeline round-trips.
+*.R        text eol=lf
+*.Rmd      text eol=lf
+*.qmd      text eol=lf
+*.md       text eol=lf
+*.yml      text eol=lf
+*.yaml     text eol=lf
+*.csv      text eol=lf
+*.json     text eol=lf
+*.lock     text eol=lf
+
+# Never convert these.
+*.png      binary
+*.jpg      binary
+*.jpeg     binary
+*.pdf      binary
+*.ris      binary
+*.nbib     binary
